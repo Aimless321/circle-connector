@@ -7,3 +7,4 @@ services:
       - "7101:8080"
     volumes:
       - "./central.db:/central.db"
+      - "./config.json:/config.json"

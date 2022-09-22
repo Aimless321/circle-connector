@@ -44,7 +44,7 @@ func main() {
 		log.Panic(err)
 	}
 
-	genApiKey()
+	//genApiKey()
 
 	app := fiber.New()
 	app.Use(cors.New(
