@@ -1,6 +1,6 @@
 FROM golang:1.18-alpine AS build_base
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git build-base
 
 # Set the Current Working Directory inside the container
 WORKDIR /build
@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN go build -o ./out/hll-stats-backend .
+RUN go build -o ./out/connector-api .
 
 # Start fresh from a smaller image
 FROM alpine:3.9
