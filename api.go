@@ -1,7 +1,7 @@
 package main
 
 import (
-	account_link "connector-backend/account-link"
+	accountLink "connector-backend/account-link"
 	"connector-backend/models"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
@@ -15,7 +15,6 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"log"
-	"time"
 )
 
 var (
@@ -44,8 +43,6 @@ func main() {
 		log.Panic(err)
 	}
 
-	//genApiKey()
-
 	app := fiber.New()
 	app.Use(cors.New(
 		cors.Config{
@@ -69,7 +66,7 @@ func main() {
 		ContextKey:   "apiKey",
 	}))
 
-	account_link.SetupRoutes(app.Group("/account-link/"))
+	accountLink.SetupRoutes(app.Group("/account-link/"))
 
 	if err := app.Listen(":8080"); err != nil {
 		log.Panic(err)
@@ -113,20 +110,4 @@ func validator(c *fiber.Ctx, s string) (bool, error) {
 	}
 
 	return false, errInvalid
-}
-
-func genApiKey() {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
-		Issuer:    "circle-connector",
-		Subject:   "circle-stats-bot",
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(365 * 24 * time.Hour)),
-		IssuedAt:  jwt.NewNumericDate(time.Now()),
-		NotBefore: jwt.NewNumericDate(time.Now()),
-		ID:        "2",
-	})
-
-	// Sign and get the complete encoded token as a string using the secret
-	tokenString, _ := token.SignedString([]byte(config.String("keySecret")))
-
-	fmt.Println(tokenString)
 }
