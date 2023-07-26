@@ -4,7 +4,7 @@ services:
   api:
     build: .
     ports:
-      - "7101:8080"
+      - "127.0.0.1:7101:8080"
     volumes:
       - "./connector.db:/connector.db"
       - "./config.json:/config.json"
