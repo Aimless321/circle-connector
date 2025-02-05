@@ -7,6 +7,7 @@ import (
 )
 
 func SetupRoutes(router fiber.Router) {
+	router.Get("/", GetAll)
 	router.Post("/link", LinkAccount)
 	router.Get("/steam/all", GetAllAccountsBySteamId)
 	router.Get("/steam/:steamId", GetAccountBySteamId)

@@ -8,6 +8,22 @@ import (
 	"strconv"
 )
 
+func GetAll(c *fiber.Ctx) error {
+	var accounts []Account
+	result := models.Db.Find(&accounts)
+
+	if result.RowsAffected == 0 {
+		body := models.Body{ErrorField: models.Error{
+			Status:  404,
+			Message: "Cannot find any accounts",
+		}}
+		return c.Status(body.ErrorField.Status).JSON(body)
+	}
+
+	body := models.Body{Data: accounts}
+	return c.Status(body.ErrorField.Status).JSON(body)
+}
+
 func LinkAccount(c *fiber.Ctx) error {
 	payload := struct {
 		SteamId   string `json:"steamId"`
